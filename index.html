@@ -26,6 +26,10 @@
 <body>
 	<h1>Mirror Draft</h1>
 	<button onclick="generateTeams()">Regenerate Teams</button>
+	<label>
+		<input checked=true type="checkbox" id="includePros" style="margin-right: 5px;" />
+		Include Pro Players
+	</label>
 	<div class="team">
 		<h2>Team A</h2>
 		<ol id="teamA"></ol>
@@ -94,11 +98,50 @@
 			["Zena Fromme", "Zenon Estrada"],
 		];
 
+		const proPairs = [
+			['Alex Gonzalez', 'Gwen Sears'],
+			['Alex Rodriguez', 'Zoe Mallory'],
+			['Alicia Blakely', 'Mo Vaughn'],
+			['Amanda Hellerman', 'Randy Johnson'],
+			['Anna Goudreau', 'Chipper Jones'],
+			['Barbara Jones', 'Cal Ripken Jr.'],
+			['Barry Bonds', 'Sarah Maxwell'],
+			['Barry Larkin', 'Claudia Villarta'],
+			['Brenda Markart', 'Nomar Garciaparra'],
+			['Carlos Beltran', 'Ingrid Dahlman'],
+			['Cheryl Reynolds', 'Sammy Sosa'],
+			['Christina Beattie', 'Frank Thomas'],
+			['Curt Schilling', 'Nan Porter'],
+			['Dawn Cozart', 'Kenny Lofton'],
+			['Derek Jeter', 'Marilyn McDonnell'],
+			['Emily Lewbel', 'Larry Walker'],
+			['Fay Dawson', 'Juan Gonzalez'],
+			['Hillary Vargas', 'Jeff Bagwell'],
+			['Ivan Rodriguez', 'Wendy Parsons'],
+			['Jason Giambi', 'Melissa Waters'],
+			['Jason Kendall', 'Pamela Kirkos'],
+			['Jeromy Burnitz', 'Jillian Paine'],
+			['Jessica Wassersas', 'Raul Mondesi'],
+			['Jose Canseco', 'Tonya Lesco'],
+			["Kay O'Toole", "Vladimir Guerrero"],
+			['Ken Griffey Jr.', 'Susan Gore'],
+			['Kristen Sullivan', 'Marty Cordova'],
+			['Libby Futterman', 'Mike Piazza'],
+			['Mark McGwire', 'Sophie Meyer'],
+			['Raquel Cullen', 'Tony Gwynn']
+		];
+
 		function generateTeams() {
+			// Check if the user wants to include pro pairs
+			const includePros = document.getElementById("includePros").checked;
+
+			// Combine pairs if pros are included
+			const combinedPairs = includePros ? pairs.concat(proPairs) : pairs;
+
 			const selectedPairs = [];
 			while (selectedPairs.length < 9) {
 				const randomIndex = Math.floor(
-					Math.random() * pairs.length
+					Math.random() * combinedPairs.length
 				);
 				if (!selectedPairs.includes(randomIndex)) {
 					selectedPairs.push(randomIndex);
@@ -108,7 +151,7 @@
 			const teamA = [];
 			const teamB = [];
 			selectedPairs.forEach((index) => {
-				const [player1, player2] = pairs[index];
+				const [player1, player2] = combinedPairs[index];
 				if (Math.random() < 0.5) {
 					teamA.push(player1);
 					teamB.push(player2);
