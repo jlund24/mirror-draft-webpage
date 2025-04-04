@@ -1,313 +1,321 @@
 <!DOCTYPE html>
-<html lang="en"></html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Team Generator</title>
-		<style>
-			body {
-				font-family: Arial, sans-serif;
-				padding: 20px;
-			}
-			.team {
-				margin: 20px 0;
-			}
-			h2 {
-				margin-bottom: 10px;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Mirror Draft</h1>
-		<button onclick="generateTeams()">Regenerate Teams</button>
-		<label>
-			<input checked=true type="checkbox" id="includePros" style="margin-right: 5px;" />
-			Include Pro Players
+<html lang="en">
+
+</html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>BSO Mirror Draft</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			padding: 20px;
+		}
+
+		.team {
+			margin: 20px 0;
+		}
+
+		h2 {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>BSO Mirror Draft</h1>
+	<p style="font-style: italic; color: #6c757d;">Random, but identical rosters (clones only) for fairer online play matchups.</p>
+	<button onclick="generateTeams()">Regenerate Teams</button>
+	<label>
+		<input checked=true type="checkbox" id="includePros" style="margin-right: 5px;" />
+		Include Pro Players
+	</label>
+	<div class="team">
+		<h2>Team A</h2>
+		<ol id="teamA"></ol>
+	</div>
+	<div class="team">
+		<h2>Team B</h2>
+		<ol id="teamB"></ol>
+	</div>
+	<!-- <button onclick="copyTeamsToClipboard()">Copy to Clipboard</button> -->
+	<div style="display: flex; align-items: center; margin-top: 10px;">
+		<button onclick="copyTeamsToClipboard()">Copy to Clipboard</button>
+		<label style="margin-left: 10px; display: flex; align-items: center;">
+			<input checked=true type="checkbox" id="formatToggle" style="margin-right: 5px;" />
+			Format for Discord
 		</label>
-		<div class="team">
-			<h2>Team A</h2>
-			<ol id="teamA"></ol>
-		</div>
-		<div class="team">
-			<h2>Team B</h2>
-			<ol id="teamB"></ol>
-		</div>
-		<!-- <button onclick="copyTeamsToClipboard()">Copy to Clipboard</button> -->
-		<div style="display: flex; align-items: center; margin-top: 10px;">
-			<button onclick="copyTeamsToClipboard()">Copy to Clipboard</button>
-			<label style="margin-left: 10px; display: flex; align-items: center;">
-				<input checked=true type="checkbox" id="formatToggle" style="margin-right: 5px;" />
-				Format for Discord
-			</label>
-		</div>
-		<script>
-			const pairs = [
-				["Betty Houston", "Bobby Bulgrien"],
-				["Arlene Perez", "Artie Pimbleton"],
-				["Bret Olson", "Cindy Chang"],
-				["Carlos Ocampo", "Clarice Reid"],
-				["Chad Koppel", "Colleen Klinker"],
-				["Chris Milton", "Chucky Flinder"],
-				["Diana Hayes", "Esther French"],
-				["Jordan Thorner", "Liz Kinghorn"],
-				["Davy Marian", "Francis Blewer"],
-				["Horace Young", "Karen Donato"],
-				["Dominique Lowe", "Gail Weinmann"],
-				["Earl Abbot", "Grace Tipton"],
-				["Eric Lebeaux", "Hannah Peavy"],
-				["Felix Grant", "Heather Quinn"],
-				["Fernando Diaz", "Holly Franklin"],
-				["Franky Holly", "Isabelle Marelli"],
-				["Fred Benson", "Jane Davis"],
-				["Gary Allen", "Joella Minotti"],
-				["George Coleman", "Judy Abwunza"],
-				["Henri Deschenes", "Julie Dunkel"],
-				["Ibrahim Mohamed", "Katie Shankar"],
-				["Isaac Drummond", "Krissy Mulligan"],
-				["Jack Joseph", "Lara Nunez"],
-				["Jay Green", "Leah Wayne"],
-				["Jim Kiley", "Lena Ng"],
-				["Johnny Omar", "Linda Potter"],
-				["Marianna Rauf", "Mickey O'Connor"],
-				["Mary Reilly", "Murray Goldman"],
-				["Michiko Adachi", "Nate Kowalski"],
-				["Molly May", "Nicky Winston"],
-				["Nancy Chin", "Omar Stephano"],
-				["Olga Tollefson", "Paco Kaufman"],
-				["Olive Hussein", "PJ Shareef"],
-				["Petra Chekov", "Rafael Hendrix"],
-				["Ramona Bennett", "Ray Tran"],
-				["Randi Uno", "Robby Bocko"],
-				["Ryan Vanderhoek", "Serena Damonte"],
-				["Shane Smith", "Sheila Basanti"],
-				["Sonja Hagen", "Stan Olafson"],
-				["Stacy Gordon", "Stevie Lindt"],
-				["Star Moonbeam", "Stuart Sullivan"],
-				["Tanya Uchida", "Timmy Unger"],
-				["Tiffany Bosworth", "Todd Xavier"],
-				["Tina Herrara", "Vic Soufle"],
-				["Vanna Steinman", "Vladimir Womak"],
-				["Veronica Lee", "Wally Evans"],
-				["Whitney Singh", "Wing Kwan"],
-				["Zena Fromme", "Zenon Estrada"],
-			];
+	</div>
+	<script>
+		const pairs = [
+			["Betty Houston", "Bobby Bulgrien"],
+			["Arlene Perez", "Artie Pimbleton"],
+			["Bret Olson", "Cindy Chang"],
+			["Carlos Ocampo", "Clarice Reid"],
+			["Chad Koppel", "Colleen Klinker"],
+			["Chris Milton", "Chucky Flinder"],
+			["Diana Hayes", "Esther French"],
+			["Jordan Thorner", "Liz Kinghorn"],
+			["Davy Marian", "Francis Blewer"],
+			["Horace Young", "Karen Donato"],
+			["Dominique Lowe", "Gail Weinmann"],
+			["Earl Abbot", "Grace Tipton"],
+			["Eric Lebeaux", "Hannah Peavy"],
+			["Felix Grant", "Heather Quinn"],
+			["Fernando Diaz", "Holly Franklin"],
+			["Franky Holly", "Isabelle Marelli"],
+			["Fred Benson", "Jane Davis"],
+			["Gary Allen", "Joella Minotti"],
+			["George Coleman", "Judy Abwunza"],
+			["Henri Deschenes", "Julie Dunkel"],
+			["Ibrahim Mohamed", "Katie Shankar"],
+			["Isaac Drummond", "Krissy Mulligan"],
+			["Jack Joseph", "Lara Nunez"],
+			["Jay Green", "Leah Wayne"],
+			["Jim Kiley", "Lena Ng"],
+			["Johnny Omar", "Linda Potter"],
+			["Marianna Rauf", "Mickey O'Connor"],
+			["Mary Reilly", "Murray Goldman"],
+			["Michiko Adachi", "Nate Kowalski"],
+			["Molly May", "Nicky Winston"],
+			["Nancy Chin", "Omar Stephano"],
+			["Olga Tollefson", "Paco Kaufman"],
+			["Olive Hussein", "PJ Shareef"],
+			["Petra Chekov", "Rafael Hendrix"],
+			["Ramona Bennett", "Ray Tran"],
+			["Randi Uno", "Robby Bocko"],
+			["Ryan Vanderhoek", "Serena Damonte"],
+			["Shane Smith", "Sheila Basanti"],
+			["Sonja Hagen", "Stan Olafson"],
+			["Stacy Gordon", "Stevie Lindt"],
+			["Star Moonbeam", "Stuart Sullivan"],
+			["Tanya Uchida", "Timmy Unger"],
+			["Tiffany Bosworth", "Todd Xavier"],
+			["Tina Herrara", "Vic Soufle"],
+			["Vanna Steinman", "Vladimir Womak"],
+			["Veronica Lee", "Wally Evans"],
+			["Whitney Singh", "Wing Kwan"],
+			["Zena Fromme", "Zenon Estrada"],
+		];
 
-			const proPairs = [
-				['Alex Gonzalez', 'Gwen Sears'],
-				['Alex Rodriguez', 'Zoe Mallory'],
-				['Alicia Blakely', 'Mo Vaughn'],
-				['Amanda Hellerman', 'Randy Johnson'],
-				['Anna Goudreau', 'Chipper Jones'],
-				['Barbara Jones', 'Cal Ripken Jr.'],
-				['Barry Bonds', 'Sarah Maxwell'],
-				['Barry Larkin', 'Claudia Villarta'],
-				['Brenda Markart', 'Nomar Garciaparra'],
-				['Carlos Beltran', 'Ingrid Dahlman'],
-				['Cheryl Reynolds', 'Sammy Sosa'],
-				['Christina Beattie', 'Frank Thomas'],
-				['Curt Schilling', 'Nan Porter'],
-				['Dawn Cozart', 'Kenny Lofton'],
-				['Derek Jeter', 'Marilyn McDonnell'],
-				['Emily Lewbel', 'Larry Walker'],
-				['Fay Dawson', 'Juan Gonzalez'],
-				['Hillary Vargas', 'Jeff Bagwell'],
-				['Ivan Rodriguez', 'Wendy Parsons'],
-				['Jason Giambi', 'Melissa Waters'],
-				['Jason Kendall', 'Pamela Kirkos'],
-				['Jeromy Burnitz', 'Jillian Paine'],
-				['Jessica Wassersas', 'Raul Mondesi'],
-				['Jose Canseco', 'Tonya Lesco'],
-				["Kay O'Toole", "Vladimir Guerrero"],
-				['Ken Griffey Jr.', 'Susan Gore'],
-				['Kristen Sullivan', 'Marty Cordova'],
-				['Libby Futterman', 'Mike Piazza'],
-				['Mark McGwire', 'Sophie Meyer'],
-				['Raquel Cullen', 'Tony Gwynn']
-				];
+		const proPairs = [
+			['Alex Gonzalez', 'Gwen Sears'],
+			['Alex Rodriguez', 'Zoe Mallory'],
+			['Alicia Blakely', 'Mo Vaughn'],
+			['Amanda Hellerman', 'Randy Johnson'],
+			['Anna Goudreau', 'Chipper Jones'],
+			['Barbara Jones', 'Cal Ripken Jr.'],
+			['Barry Bonds', 'Sarah Maxwell'],
+			['Barry Larkin', 'Claudia Villarta'],
+			['Brenda Markart', 'Nomar Garciaparra'],
+			['Carlos Beltran', 'Ingrid Dahlman'],
+			['Cheryl Reynolds', 'Sammy Sosa'],
+			['Christina Beattie', 'Frank Thomas'],
+			['Curt Schilling', 'Nan Porter'],
+			['Dawn Cozart', 'Kenny Lofton'],
+			['Derek Jeter', 'Marilyn McDonnell'],
+			['Emily Lewbel', 'Larry Walker'],
+			['Fay Dawson', 'Juan Gonzalez'],
+			['Hillary Vargas', 'Jeff Bagwell'],
+			['Ivan Rodriguez', 'Wendy Parsons'],
+			['Jason Giambi', 'Melissa Waters'],
+			['Jason Kendall', 'Pamela Kirkos'],
+			['Jeromy Burnitz', 'Jillian Paine'],
+			['Jessica Wassersas', 'Raul Mondesi'],
+			['Jose Canseco', 'Tonya Lesco'],
+			["Kay O'Toole", "Vladimir Guerrero"],
+			['Ken Griffey Jr.', 'Susan Gore'],
+			['Kristen Sullivan', 'Marty Cordova'],
+			['Libby Futterman', 'Mike Piazza'],
+			['Mark McGwire', 'Sophie Meyer'],
+			['Raquel Cullen', 'Tony Gwynn']
+		];
 
-			function generateTeams() {
-				// Check if the user wants to include pro pairs
-				const includePros = document.getElementById("includePros").checked;
+		function generateTeams() {
+			// Check if the user wants to include pro pairs
+			const includePros = document.getElementById("includePros").checked;
 
-				// Combine pairs if pros are included
-				const combinedPairs = includePros ? pairs.concat(proPairs) : pairs;
+			// Combine pairs if pros are included
+			const combinedPairs = includePros ? pairs.concat(proPairs) : pairs;
 
-				const selectedPairs = [];
-				while (selectedPairs.length < 9) {
-					const randomIndex = Math.floor(
-						Math.random() * combinedPairs.length
-					);
-					if (!selectedPairs.includes(randomIndex)) {
-						selectedPairs.push(randomIndex);
-					}
+			const selectedPairs = [];
+			while (selectedPairs.length < 9) {
+				const randomIndex = Math.floor(
+					Math.random() * combinedPairs.length
+				);
+				if (!selectedPairs.includes(randomIndex)) {
+					selectedPairs.push(randomIndex);
 				}
+			}
 
-				const teamA = [];
-				const teamB = [];
-				selectedPairs.forEach((index) => {
-					const [player1, player2] = combinedPairs[index];
-					if (Math.random() < 0.5) {
-						teamA.push(player1);
-						teamB.push(player2);
-					} else {
-						teamA.push(player2);
-						teamB.push(player1);
-					}
+			const teamA = [];
+			const teamB = [];
+			selectedPairs.forEach((index) => {
+				const [player1, player2] = combinedPairs[index];
+				if (Math.random() < 0.5) {
+					teamA.push(player1);
+					teamB.push(player2);
+				} else {
+					teamA.push(player2);
+					teamB.push(player1);
+				}
+			});
+
+			document.getElementById("teamA").innerHTML = teamA
+				.map((player) => `<li>${player}</li>`)
+				.join("");
+			document.getElementById("teamB").innerHTML = teamB
+				.map((player) => `<li>${player}</li>`)
+				.join("");
+		}
+
+		window.onload = generateTeams;
+		// function copyTeamsToClipboard() {
+		// 		const teamATitle = "**Team A**";
+		// 		const teamBTitle = "**Team B**";
+		// 		const teamAList = Array.from(document.querySelectorAll("#teamA li"))
+		// 			.map((li) => li.textContent)
+		// 			.join("\n");
+		// 		const teamBList = Array.from(document.querySelectorAll("#teamB li"))
+		// 			.map((li) => li.textContent)
+		// 			.join("\n");
+
+		// 		const textToCopy = `${teamATitle}\n${teamAList}\n\n${teamBTitle}\n${teamBList}`;
+
+		// 		// Fallback approach using a temporary textarea
+		// 		const tempTextArea = document.createElement("textarea");
+		// 		tempTextArea.value = textToCopy;
+		// 		document.body.appendChild(tempTextArea);
+		// 		tempTextArea.select();
+		// 		tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+		// 		try {
+		// 			document.execCommand("copy");
+		// 			alert("Teams copied to clipboard!");
+		// 		} catch (err) {
+		// 			alert("Failed to copy teams: " + err);
+		// 		}
+
+		// 		document.body.removeChild(tempTextArea);
+		// 	}
+		// function copyTeamsToClipboard() {
+		// 		const teamAList = Array.from(document.querySelectorAll("#teamA li")).map(
+		// 			(li) => li.textContent
+		// 		);
+		// 		const teamBList = Array.from(document.querySelectorAll("#teamB li")).map(
+		// 			(li) => li.textContent
+		// 		);
+
+		// 		// Calculate column widths
+		// 		const maxIndexWidth = String(teamAList.length).length;
+		// 		const maxTeamAWidth = Math.max(...teamAList.map((name) => name.length));
+		// 		const maxTeamBWidth = Math.max(...teamBList.map((name) => name.length));
+
+		// 		// Create table header
+		// 		const header = `#${" ".repeat(maxIndexWidth - 1)} | Team A${" ".repeat(
+		// 			maxTeamAWidth - 6
+		// 		)} | Team B${" ".repeat(maxTeamBWidth - 6)}`;
+		// 		const separator = `${"-".repeat(maxIndexWidth)}-+-${"-".repeat(
+		// 			maxTeamAWidth
+		// 		)}-+-${"-".repeat(maxTeamBWidth)}`;
+
+		// 		// Create table rows
+		// 		const rows = teamAList.map((playerA, index) => {
+		// 			const playerB = teamBList[index] || "";
+		// 			const indexCell = String(index + 1).padStart(maxIndexWidth);
+		// 			const teamACell = playerA.padEnd(maxTeamAWidth);
+		// 			const teamBCell = playerB.padEnd(maxTeamBWidth);
+		// 			return `${indexCell} | ${teamACell} | ${teamBCell}`;
+		// 		});
+
+		// 		// Combine all parts into a single text block
+		// 		const table = [header, separator, ...rows].join("\n");
+		// 		const textToCopy = `\`\`\`\n${table}\n\`\`\``;
+
+		// 		// Fallback approach using a temporary textarea
+		// 		const tempTextArea = document.createElement("textarea");
+		// 		tempTextArea.value = textToCopy;
+		// 		document.body.appendChild(tempTextArea);
+		// 		tempTextArea.select();
+		// 		tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+		// 		try {
+		// 			document.execCommand("copy");
+		// 			alert("Teams copied to clipboard!");
+		// 		} catch (err) {
+		// 			alert("Failed to copy teams: " + err);
+		// 		}
+
+		// 		document.body.removeChild(tempTextArea);
+		// 	}
+		function copyTeamsToClipboard() {
+			const teamAList = Array.from(document.querySelectorAll("#teamA li")).map(
+				(li) => li.textContent
+			);
+			const teamBList = Array.from(document.querySelectorAll("#teamB li")).map(
+				(li) => li.textContent
+			);
+
+			// Check if the user wants Discord formatting
+			const formatForDiscord = document.getElementById("formatToggle").checked;
+
+			let textToCopy;
+
+			if (formatForDiscord) {
+				// Calculate column widths
+				const maxIndexWidth = String(teamAList.length).length;
+				const maxTeamAWidth = Math.max(...teamAList.map((name) => name.length));
+				const maxTeamBWidth = Math.max(...teamBList.map((name) => name.length));
+
+				// Create table header
+				const header = `#${" ".repeat(maxIndexWidth - 1)} | Team A${" ".repeat(
+					maxTeamAWidth - 6
+				)} | Team B${" ".repeat(maxTeamBWidth - 6)}`;
+				const separator = `${"-".repeat(maxIndexWidth)}-+-${"-".repeat(
+					maxTeamAWidth
+				)}-+-${"-".repeat(maxTeamBWidth)}`;
+
+				// Create table rows
+				const rows = teamAList.map((playerA, index) => {
+					const playerB = teamBList[index] || "";
+					const indexCell = String(index + 1).padStart(maxIndexWidth);
+					const teamACell = playerA.padEnd(maxTeamAWidth);
+					const teamBCell = playerB.padEnd(maxTeamBWidth);
+					return `${indexCell} | ${teamACell} | ${teamBCell}`;
 				});
 
-				document.getElementById("teamA").innerHTML = teamA
-					.map((player) => `<li>${player}</li>`)
-					.join("");
-				document.getElementById("teamB").innerHTML = teamB
-					.map((player) => `<li>${player}</li>`)
-					.join("");
+				// Combine all parts into a single text block
+				const table = [header, separator, ...rows].join("\n");
+				const linkText =
+					"▶️ Use these teams (Log in -> My Teams -> Create Team): https://backyardsports.online/teams/create\n🔀 Get new draft: https://jlund24.github.io/mirror-draft-webpage/";
+				textToCopy = `🪞 **Mirror Draft** 🪞\`\`\`\n${table}\n\`\`\`\n${linkText}`;
+			} else {
+				// Plaintext format
+				const teamATitle = "TEAM A:";
+				const teamBTitle = "TEAM B:";
+				const teamAPlain = teamAList.join(", ");
+				const teamBPlain = teamBList.join(", ");
+				textToCopy = `🪞 Mirror Draft 🪞\n${teamATitle} ${teamAPlain}\n\n${teamBTitle} ${teamBPlain}\n\nUse these teams: https://backyardsports.online/teams/create\nGet new draft: https://jlund24.github.io/mirror-draft-webpage/`;
 			}
 
-			window.onload = generateTeams;
-			// function copyTeamsToClipboard() {
-			// 		const teamATitle = "**Team A**";
-			// 		const teamBTitle = "**Team B**";
-			// 		const teamAList = Array.from(document.querySelectorAll("#teamA li"))
-			// 			.map((li) => li.textContent)
-			// 			.join("\n");
-			// 		const teamBList = Array.from(document.querySelectorAll("#teamB li"))
-			// 			.map((li) => li.textContent)
-			// 			.join("\n");
+			// Fallback approach using a temporary textarea
+			const tempTextArea = document.createElement("textarea");
+			tempTextArea.value = textToCopy;
+			document.body.appendChild(tempTextArea);
+			tempTextArea.select();
+			tempTextArea.setSelectionRange(0, 99999); // For mobile devices
 
-			// 		const textToCopy = `${teamATitle}\n${teamAList}\n\n${teamBTitle}\n${teamBList}`;
+			try {
+				document.execCommand("copy");
+				alert("Teams copied to clipboard!");
+			} catch (err) {
+				alert("Failed to copy teams: " + err);
+			}
 
-			// 		// Fallback approach using a temporary textarea
-			// 		const tempTextArea = document.createElement("textarea");
-			// 		tempTextArea.value = textToCopy;
-			// 		document.body.appendChild(tempTextArea);
-			// 		tempTextArea.select();
-			// 		tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+			document.body.removeChild(tempTextArea);
+		}
+	</script>
+</body>
 
-			// 		try {
-			// 			document.execCommand("copy");
-			// 			alert("Teams copied to clipboard!");
-			// 		} catch (err) {
-			// 			alert("Failed to copy teams: " + err);
-			// 		}
-
-			// 		document.body.removeChild(tempTextArea);
-			// 	}
-			// function copyTeamsToClipboard() {
-			// 		const teamAList = Array.from(document.querySelectorAll("#teamA li")).map(
-			// 			(li) => li.textContent
-			// 		);
-			// 		const teamBList = Array.from(document.querySelectorAll("#teamB li")).map(
-			// 			(li) => li.textContent
-			// 		);
-
-			// 		// Calculate column widths
-			// 		const maxIndexWidth = String(teamAList.length).length;
-			// 		const maxTeamAWidth = Math.max(...teamAList.map((name) => name.length));
-			// 		const maxTeamBWidth = Math.max(...teamBList.map((name) => name.length));
-
-			// 		// Create table header
-			// 		const header = `#${" ".repeat(maxIndexWidth - 1)} | Team A${" ".repeat(
-			// 			maxTeamAWidth - 6
-			// 		)} | Team B${" ".repeat(maxTeamBWidth - 6)}`;
-			// 		const separator = `${"-".repeat(maxIndexWidth)}-+-${"-".repeat(
-			// 			maxTeamAWidth
-			// 		)}-+-${"-".repeat(maxTeamBWidth)}`;
-
-			// 		// Create table rows
-			// 		const rows = teamAList.map((playerA, index) => {
-			// 			const playerB = teamBList[index] || "";
-			// 			const indexCell = String(index + 1).padStart(maxIndexWidth);
-			// 			const teamACell = playerA.padEnd(maxTeamAWidth);
-			// 			const teamBCell = playerB.padEnd(maxTeamBWidth);
-			// 			return `${indexCell} | ${teamACell} | ${teamBCell}`;
-			// 		});
-
-			// 		// Combine all parts into a single text block
-			// 		const table = [header, separator, ...rows].join("\n");
-			// 		const textToCopy = `\`\`\`\n${table}\n\`\`\``;
-
-			// 		// Fallback approach using a temporary textarea
-			// 		const tempTextArea = document.createElement("textarea");
-			// 		tempTextArea.value = textToCopy;
-			// 		document.body.appendChild(tempTextArea);
-			// 		tempTextArea.select();
-			// 		tempTextArea.setSelectionRange(0, 99999); // For mobile devices
-
-			// 		try {
-			// 			document.execCommand("copy");
-			// 			alert("Teams copied to clipboard!");
-			// 		} catch (err) {
-			// 			alert("Failed to copy teams: " + err);
-			// 		}
-
-			// 		document.body.removeChild(tempTextArea);
-			// 	}
-			function copyTeamsToClipboard() {
-					const teamAList = Array.from(document.querySelectorAll("#teamA li")).map(
-						(li) => li.textContent
-					);
-					const teamBList = Array.from(document.querySelectorAll("#teamB li")).map(
-						(li) => li.textContent
-					);
-
-					// Check if the user wants Discord formatting
-					const formatForDiscord = document.getElementById("formatToggle").checked;
-
-					let textToCopy;
-
-					if (formatForDiscord) {
-						// Calculate column widths
-						const maxIndexWidth = String(teamAList.length).length;
-						const maxTeamAWidth = Math.max(...teamAList.map((name) => name.length));
-						const maxTeamBWidth = Math.max(...teamBList.map((name) => name.length));
-
-						// Create table header
-						const header = `#${" ".repeat(maxIndexWidth - 1)} | Team A${" ".repeat(
-							maxTeamAWidth - 6
-						)} | Team B${" ".repeat(maxTeamBWidth - 6)}`;
-						const separator = `${"-".repeat(maxIndexWidth)}-+-${"-".repeat(
-							maxTeamAWidth
-						)}-+-${"-".repeat(maxTeamBWidth)}`;
-
-						// Create table rows
-						const rows = teamAList.map((playerA, index) => {
-							const playerB = teamBList[index] || "";
-							const indexCell = String(index + 1).padStart(maxIndexWidth);
-							const teamACell = playerA.padEnd(maxTeamAWidth);
-							const teamBCell = playerB.padEnd(maxTeamBWidth);
-							return `${indexCell} | ${teamACell} | ${teamBCell}`;
-						});
-
-						// Combine all parts into a single text block
-						const table = [header, separator, ...rows].join("\n");
-						const linkText =
-							"▶️ Use these teams (Log in -> My Teams -> Create Team): https://backyardsports.online/teams/create\n🔀 Get new draft: https://jlund24.github.io/mirror-draft-webpage/";
-						textToCopy = `🪞 **Mirror Draft** 🪞\`\`\`\n${table}\n\`\`\`\n${linkText}`;
-					} else {
-						// Plaintext format
-						const teamATitle = "TEAM A:";
-						const teamBTitle = "TEAM B:";
-						const teamAPlain = teamAList.join(", ");
-						const teamBPlain = teamBList.join(", ");
-						textToCopy = `🪞 Mirror Draft 🪞\n${teamATitle} ${teamAPlain}\n\n${teamBTitle} ${teamBPlain}\n\nUse these teams: https://backyardsports.online/teams/create\nGet new draft: https://jlund24.github.io/mirror-draft-webpage/`;
-					}
-
-					// Fallback approach using a temporary textarea
-					const tempTextArea = document.createElement("textarea");
-					tempTextArea.value = textToCopy;
-					document.body.appendChild(tempTextArea);
-					tempTextArea.select();
-					tempTextArea.setSelectionRange(0, 99999); // For mobile devices
-
-					try {
-						document.execCommand("copy");
-						alert("Teams copied to clipboard!");
-					} catch (err) {
-						alert("Failed to copy teams: " + err);
-					}
-
-					document.body.removeChild(tempTextArea);
-				}
-		</script>
-	</body>
 </html>
